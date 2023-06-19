@@ -11,7 +11,6 @@ module.exports = {
             exec_mode: 'cluster',
             error_file: '../../logs/app.err.log',
             out_file: '../../logs/app.out.log',
-            script: './.output/server/index.mjs',
             env: {
                 NODE_ENV: 'production',
                 APP_ENV: 'staging',
