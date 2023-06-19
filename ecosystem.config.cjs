@@ -9,8 +9,6 @@ module.exports = {
             max_memory_restart: '1G',
             listen_timeout: 5000,
             exec_mode: 'cluster',
-            error_file: '../../logs/app.err.log',
-            out_file: '../../logs/app.out.log',
             env: {
                 NODE_ENV: 'production',
                 APP_ENV: 'staging',
