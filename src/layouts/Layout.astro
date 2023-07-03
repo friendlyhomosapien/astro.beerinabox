@@ -1,36 +1,62 @@
 ---
+import '@/styles/app.css';
+import BreadCrumbs from '@/components/Bread/Crumbs.astro';
+
 export interface Props {
-	title: string;
+    title?: string | 'beer in a box';
+    breadcrumbs?: {
+        path: string;
+        label: string;
+    }[]
 }
 
-const { title } = Astro.props;
+const { title, breadcrumbs } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description">
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Astro description">
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
+    </head>
+    <body>
+        <header class="bg-base-300">
+            <div class="container mx-auto navbar">
+                <a class="btn btn-ghost normal-case text-xl">
+                    🍺🍺🍺 beer-in-a-box 🍺🍺🍺
+                </a>
+            </div>
+        </header>
+
+        <nav>
+            { breadcrumbs?.length && <BreadCrumbs crumbs={breadcrumbs} /> }
+        </nav>
+
+        <main>
+            <slot />
+        </main>
+    </body>
 </html>
+
 <style is:global>
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background-color: #F6F6F6;
-	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
+
+html {
+    @apply bg-base-300;
+}
+
+body {
+    @apply bg-neutral min-h-screen;
+}
+
+body > nav {
+    @apply container mx-auto;
+}
+
+body > main {
+    @apply container mx-auto mt-12;
+}
 </style>

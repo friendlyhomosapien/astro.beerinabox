@@ -1,0 +1,36 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import directusClient from '@/utils/directusClient';
+
+export const prerender = true;
+
+type ResponseType = {
+    data: [
+        {
+            id: number;
+            title: string;
+            artist: string;
+        }
+    ]
+
+};
+
+const { data } = await directusClient.items('music')
+    .readByQuery({
+        fields: ['*']
+    }) as ResponseType;
+---
+
+<Layout breadcrumbs={[{ path: '/example/music', label: 'Music' }]}>
+    <ul class="grid gap-4">
+        {
+            data.map((music) => (
+                <li>
+                    <a class="btn" href={`/example/music/${music.id}`}>
+                        <span>🎵</span>{music.artist} - { music.title }
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+</Layout>

@@ -1,0 +1,42 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Directus, ID } from '@directus/sdk';
+
+type Movie = {
+    id: ID;
+    title: string
+    description: string;
+};
+
+interface PageParams {
+    id: ID;
+};
+
+const { id } = Astro.params as unknown as PageParams;
+
+const item = await new Directus(import.meta.env.DIRECTUS_URL)
+    .items('movies')
+    .readOne(id, { fields: ['*']}) as Movie;
+---
+
+<a href="/example/movie">Back</a>
+
+<Layout
+    breadcrumbs={[
+        {
+            path: `/example/movie`,
+            label: 'Movies'
+        },
+        {
+            path: `/example/movie/${item.id}`,
+            label: item.title
+        }
+    ]}
+>
+    <h1>{item.title}</h1>
+    <code>
+        {
+            JSON.stringify(item)
+        }
+    </code>
+</Layout>

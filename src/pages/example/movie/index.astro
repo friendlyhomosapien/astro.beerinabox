@@ -1,0 +1,60 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Directus } from '@directus/sdk';
+
+type ResponseType = {
+    data: [
+        {
+            id: number;
+            title: string
+            summary: string;
+        }
+    ]
+
+};
+
+const { data } = await new Directus(import.meta.env.DIRECTUS_URL)
+    .items('movies')
+    .readByQuery({
+        fields: ['*']
+    }) as ResponseType;
+---
+
+<Layout
+    breadcrumbs={[
+        {
+            path: '/example/movie',
+            label: 'Movies'
+        }
+    ]}
+>
+    <h1 class="text-gradient">Movie List</h1>
+
+    <ul class="grid md:grid-cols-3 gap-4">
+        {
+            data.map((movie) => (
+                <li>
+                    <a
+                        href={`/example/movie/${movie.id}`}
+                        class="card w-96 bg-primary text-primary-content"
+                    >
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                { movie.title }
+                            </h2>
+                            <p>
+                                { movie.summary }
+                            </p>
+                            <div class="card-actions justify-end">
+                                <button class="btn">
+                                    See Now!
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </li>
+            ))
+        }
+    </ul>
+</Layout>

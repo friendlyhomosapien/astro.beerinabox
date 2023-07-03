@@ -1,0 +1,47 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import directusClient from '@/utils/directusClient';
+
+export const prerender = true;
+
+type ResponseType = {
+    data: [
+        {
+            id: number;
+            title: string;
+            description: string;
+        }
+    ]
+};
+export async function getStaticPaths() {
+    const { data } = await directusClient.items('music')
+        .readByQuery({ fields: ['*']}) as ResponseType;
+
+    return data.map((item) => ({
+        params: {
+            id: item.id.toString(),
+        },
+        props: {
+            entry: item,
+        }
+    }));
+}
+
+const { entry } = Astro.props;
+---
+
+<a href="/example/music">Back</a>
+
+<Layout
+    breadcrumbs={[
+        { path: '/example/music', label: 'Music 🎵'},
+        { path: `/example/music/${entry.id}`, label: entry.title }
+    ]}
+>
+    <h1>{entry.artist} - {entry.title}</h1>
+    <code>
+        {
+            JSON.stringify(entry)
+        }
+    </code>
+</Layout>

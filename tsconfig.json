@@ -1,9 +1,18 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-  "extends": "astro/tsconfigs/strict",
+    "extends": "astro/tsconfigs/strict",
+    "compilerOptions": {
+        "allowJs": true,
+        "baseUrl": ".",
+        "paths": {
+        "@/*": ["src/*"]
+        },
+        "plugins": [
+            {
+                "name": "@astrojs/ts-plugin"
+            }
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ]
 }
