@@ -1,5 +1,5 @@
 {
-    "extends": "astro/tsconfigs/strict",
+    "extends": "astro/tsconfigs/relaxed",
     "compilerOptions": {
         "allowJs": true,
         "baseUrl": ".",
